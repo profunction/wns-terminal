@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="terminal" data-lang="en">
+<html lang="en" data-theme="dark" data-lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
@@ -37,7 +37,7 @@
 <meta name="application-name" content="WNS" />
 <meta name="format-detection" content="telephone=no" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>" />
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23070a14'/><text x='50' y='72' font-size='60' text-anchor='middle' fill='%2306b6d4'>&#9889;</text></svg>" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23110d16'/><text x='50' y='72' font-size='60' text-anchor='middle' fill='%23f59e0b'>&#9889;</text></svg>" />
 <link rel="manifest" href="manifest.json" />
 
 <!-- ===================== SEARCH ENGINE VERIFICATION (replace content with your codes) ===================== -->
@@ -129,7 +129,7 @@
     "Economic indicators and market indices",
     "News categorization (Stocks, Economy, Markets, Crypto, Tech, World, Science, Health)",
     "Multi-language support (English & Chinese)",
-    "Dark, light, and terminal themes",
+    "Dark and light themes",
     "Mobile-responsive design"
   ],
   "aggregateRating": {
@@ -279,37 +279,6 @@
 :root[lang="zh-CN"] .ien { display: none; }
 :root:not([lang="zh-CN"]) .izh { display: none; }
 
-/* ===== NEBULA THEME (deep space + cyan/purple) ===== */
-[data-theme="terminal"] {
-  --bg-primary: #070a14;
-  --bg-secondary: #0c1020;
-  --bg-elevated: #121829;
-  --bg-panel: rgba(255,255,255,.022);
-  --bg-glass: rgba(255,255,255,.03);
-  --bg-hover: rgba(255,255,255,.05);
-  --border-color: rgba(255,255,255,.06);
-  --border-bright: rgba(6,182,212,.22);
-  --text-primary: #e8eef7;
-  --text-secondary: #8a96b8;
-  --text-muted: #4a5275;
-  --accent-blue: #06b6d4;
-  --accent-green: #10b981;
-  --accent-red: #f43f5e;
-  --accent-gold: #f59e0b;
-  --accent-purple: #a855f7;
-  --accent-cyan: #22d3ee;
-  --accent-pink: #ec4899;
-  --up-color: #10b981;
-  --down-color: #f43f5e;
-  --neutral-color: #f59e0b;
-  --glow: 0 0 24px rgba(6,182,212,.1);
-  --glow-bright: 0 8px 32px rgba(6,182,212,.08), 0 0 0 1px rgba(6,182,212,.12);
-  --shadow: 0 4px 24px rgba(0,0,0,.5);
-  --gradient-1: linear-gradient(135deg, #06b6d4, #a855f7);
-  --gradient-2: linear-gradient(135deg, #a855f7, #ec4899);
-  --gradient-accent: linear-gradient(135deg, #06b6d4, #a855f7);
-}
-
 /* ===== CARBON THEME (warm dark + amber/gold) ===== */
 [data-theme="dark"] {
   --bg-primary: #110d16;
@@ -380,7 +349,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:14px}
 body{font-family:var(--font-active);background:var(--bg-primary);color:var(--text-primary);line-height:1.5;min-height:100vh;overflow-x:hidden;transition:background .35s ease,color .35s ease;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-[data-theme="terminal"] body{background:radial-gradient(ellipse at top, #0d1525 0%, #070a14 60%)}
 [data-theme="dark"] body{background:radial-gradient(ellipse at top, #1e1830 0%, #110d16 60%)}
 [data-theme="light"] body{background:radial-gradient(ellipse at top, #e8f0fe 0%, #eef2f7 60%)}
 
@@ -397,7 +365,9 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
 .cmd-bar{position:sticky;top:0;z-index:300;background:var(--bg-glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border-color);height:48px;display:flex;align-items:center;gap:0;padding:0 16px}
 
 .cmd-logo{display:flex;align-items:center;gap:10px;margin-right:16px;flex-shrink:0}
-.cmd-logo-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;border-radius:var(--radius-sm);background:var(--gradient-accent);box-shadow:0 2px 12px rgba(6,182,212,.3)}
+.cmd-logo-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;border-radius:var(--radius-sm);background:var(--gradient-accent);box-shadow:0 2px 12px rgba(0,0,0,.25)}
+[data-theme="dark"] .cmd-logo-icon{box-shadow:0 2px 12px rgba(245,158,11,.3)}
+[data-theme="light"] .cmd-logo-icon{box-shadow:0 2px 12px rgba(59,130,246,.25)}
 .cmd-logo-text{font-size:14px;font-weight:800;letter-spacing:.03em;color:var(--text-primary);white-space:nowrap}
 .cmd-logo-text span{background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
@@ -421,7 +391,9 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
 
 .cmd-theme-cycle{display:flex;gap:2px;padding:3px;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:var(--radius-sm)}
 .cmd-theme-btn{padding:4px 10px;font-size:10px;font-weight:700;border-radius:var(--radius-xs);color:var(--text-muted);transition:all var(--transition);text-transform:uppercase;letter-spacing:.05em}
-.cmd-theme-btn.active{background:var(--gradient-accent);color:#fff;box-shadow:0 2px 8px rgba(6,182,212,.2)}
+.cmd-theme-btn.active{background:var(--gradient-accent);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+[data-theme="dark"] .cmd-theme-btn.active{box-shadow:0 2px 8px rgba(245,158,11,.2)}
+[data-theme="light"] .cmd-theme-btn.active{box-shadow:0 2px 8px rgba(59,130,246,.2)}
 
 .cmd-lang-btn{padding:4px 12px;font-size:11px;font-weight:700;border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-secondary);transition:all var(--transition)}
 .cmd-lang-btn:hover{border-color:var(--accent-blue);color:var(--text-primary);background:var(--bg-hover)}
@@ -513,7 +485,7 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
 .data-timestamp{font-size:10px;color:var(--text-muted);font-weight:600;white-space:nowrap}
 .data-timestamp span{color:var(--accent-cyan)}
 .btn-refresh{padding:5px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);background:var(--bg-card);color:var(--text-secondary);font-size:11px;font-weight:700;cursor:pointer;transition:all var(--transition);white-space:nowrap}
-.btn-refresh:hover{border-color:var(--accent-cyan);color:var(--accent-cyan);background:rgba(6,182,212,.08)}
+.btn-refresh:hover{border-color:var(--accent-cyan);color:var(--accent-cyan);background:var(--bg-hover)}
 .btn-refresh:active{transform:scale(.96)}
 .ws-status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
 .ws-status-dot.connected{background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);animation:pulse 2s infinite}
@@ -629,7 +601,7 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
 .ai-gauge-scale-item.caution{color:#f97316}
 .ai-gauge-scale-item.neutral{color:#eab308}
 .ai-gauge-scale-item.optimistic{color:#22c55e}
-.ai-gauge-scale-item.greed{color:#06b6d4}
+.ai-gauge-scale-item.greed{color:#f59e0b}
 .ai-gauge-emoji{font-size:32px;margin:8px 0 4px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
 .ai-gauge-label{font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--text-primary);margin-bottom:2px}
 .ai-gauge-value{font-size:13px;font-family:var(--font-mono);font-weight:700;color:var(--text-muted);margin-bottom:6px}
@@ -1206,8 +1178,7 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
     </div>
     <div class="cmd-clock" id="cmdClock">--:--:--</div>
     <div class="cmd-theme-cycle">
-      <button class="cmd-theme-btn active" data-theme="terminal" aria-label="Switch to Nebula theme">NEBULA</button>
-      <button class="cmd-theme-btn" data-theme="dark" aria-label="Switch to Carbon theme">CARBON</button>
+      <button class="cmd-theme-btn active" data-theme="dark" aria-label="Switch to Carbon theme">CARBON</button>
       <button class="cmd-theme-btn" data-theme="light" aria-label="Switch to Pearl theme">PEARL</button>
     </div>
     <button class="cmd-lang-btn" id="langBtn" title="Language" aria-label="Switch language">EN</button>
@@ -1681,7 +1652,7 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
             <span class="chart-price-change" id="chartPriceChange">--</span>
             <span class="chart-delay-tag" id="chartDelayTag" style="display:none" data-i18n="delayed"><span class="ien">DELAYED</span><span class="izh">延迟15分</span></span>
             <div class="chart-legend">
-              <span><span class="chart-legend-dot" style="background:#06b6d4"></span><span data-i18n="chartMA"><span class="ien">MA5/10/20</span><span class="izh">MA5/10/20</span></span> <span class="help-badge" onclick="showHelp(event,'ma')">?</span></span>
+              <span><span class="chart-legend-dot" style="background:var(--accent-cyan)"></span><span data-i18n="chartMA"><span class="ien">MA5/10/20</span><span class="izh">MA5/10/20</span></span> <span class="help-badge" onclick="showHelp(event,'ma')">?</span></span>
               <span><span class="chart-legend-dot" style="background:var(--accent-purple)"></span><span data-i18n="chartRSI"><span class="ien">RSI14</span><span class="izh">RSI14</span></span> <span class="help-badge" onclick="showHelp(event,'rsi')">?</span></span>
               <span><span class="chart-legend-dot" style="background:var(--accent-gold)"></span><span data-i18n="chartMACD"><span class="ien">MACD</span><span class="izh">MACD</span></span> <span class="help-badge" onclick="showHelp(event,'macd')">?</span></span>
             </div>
@@ -1755,7 +1726,7 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
                       <stop offset="25%" stop-color="#f97316"/>
                       <stop offset="50%" stop-color="#eab308"/>
                       <stop offset="75%" stop-color="#22c55e"/>
-                      <stop offset="100%" stop-color="#06b6d4"/>
+                      <stop offset="100%" stop-color="#f59e0b"/>
                     </linearGradient>
                   </defs>
                   <path d="M20 90 A70 70 0 0 1 160 90" fill="none" stroke="var(--border-color)" stroke-width="14" stroke-linecap="round"/>
@@ -1980,7 +1951,7 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
     <span><span data-i18n="sources"><span class="ien">SOURCES</span><span class="izh">来源</span></span>: <b id="sourceCount">0</b></span>
   </div>
   <div class="status-item">
-    <span><span data-i18n="theme"><span class="ien">THEME</span><span class="izh">主题</span></span>: <b id="themeStatus">TERMINAL</b></span>
+    <span><span data-i18n="theme"><span class="ien">THEME</span><span class="izh">主题</span></span>: <b id="themeStatus">CARBON</b></span>
   </div>
   <div class="status-item">
     <span><span data-i18n="lang"><span class="ien">LANG</span><span class="izh">语言</span></span>: <b id="langStatus">EN</b></span>
@@ -3016,7 +2987,7 @@ function _closeHelpOnOutside(e) {
 // ===================== STATE =====================
 let state = {
   lang: localStorage.getItem('terminal_lang') || 'en',
-  theme: localStorage.getItem('terminal_theme') || 'terminal',
+  theme: localStorage.getItem('terminal_theme') === 'light' ? 'light' : 'dark',
   watchlist: JSON.parse(localStorage.getItem('terminal_watchlist') || JSON.stringify(DEFAULT_WATCHLIST)),
   activePage: 'flash',
   pageHistory: [],
@@ -3407,7 +3378,7 @@ function smartCategorize(title, summary, stocks) {
 
 // Category metadata for badges and display
 const NEWS_CATEGORIES = {
-  all:      { icon: '\u25A0', color: '#06b6d4', en: 'ALL',       zh: '\u5168\u90E8' },
+  all:      { icon: '\u25A0', color: '#f59e0b', en: 'ALL',       zh: '\u5168\u90E8' },
   stocks:   { icon: '\u25B2', color: '#10b981', en: 'STOCKS',    zh: '\u80A1\u7968' },
   economy:  { icon: '\u25CF', color: '#f59e0b', en: 'ECONOMY',   zh: '\u7ECF\u6D4E' },
   markets:  { icon: '\u25C6', color: '#3b82f6', en: 'MARKETS',   zh: '\u5E02\u573A' },
@@ -4840,11 +4811,10 @@ async function renderNewsMiniChart(symbol) {
   box.innerHTML = '';
   if (libraryLoaded && window.LightweightCharts) {
     const chartColors = {
-      terminal: { bg:'#070a14', text:'#8a96b8', grid:'rgba(255,255,255,.04)', border:'rgba(255,255,255,.06)', up:'#10b981', down:'#f43f5e' },
       dark: { bg:'#110d16', text:'#9a92a8', grid:'rgba(255,255,255,.03)', border:'rgba(255,255,255,.05)', up:'#84cc16', down:'#ef4444' },
       light: { bg:'#ffffff', text:'#475569', grid:'#e2e8f0', border:'#dde4ee', up:'#22c55e', down:'#ef4444' },
     };
-    const cc = chartColors[state.theme] || chartColors.terminal;
+    const cc = chartColors[state.theme] || chartColors.dark;
 
     ndpChartInstance = LightweightCharts.createChart(box, {
       width: box.clientWidth, height: 260,
@@ -4857,7 +4827,7 @@ async function renderNewsMiniChart(symbol) {
 
     const cs = ndpChartInstance.addCandlestickSeries({ upColor:cc.up, downColor:cc.down, borderUpColor:cc.up, borderDownColor:cc.down, wickUpColor:cc.up, wickDownColor:cc.down });
     cs.setData(candleData);
-    if (ma5Last) { const s = ndpChartInstance.addLineSeries({ color:'#06b6d4', lineWidth:1, priceLineVisible:false, lastValueVisible:false }); s.setData(ma5.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
+    if (ma5Last) { const s = ndpChartInstance.addLineSeries({ color: state.theme === 'light' ? '#0ea5e9' : '#f59e0b', lineWidth:1, priceLineVisible:false, lastValueVisible:false }); s.setData(ma5.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
     if (ma10Last) { const s = ndpChartInstance.addLineSeries({ color:'#f59e0b', lineWidth:1, priceLineVisible:false, lastValueVisible:false }); s.setData(ma10.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
     if (ma20Last) { const s = ndpChartInstance.addLineSeries({ color:'#a855f7', lineWidth:1, priceLineVisible:false, lastValueVisible:false }); s.setData(ma20.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
     ndpChartInstance.timeScale().fitContent();
@@ -4998,10 +4968,10 @@ function updateFaviconBadge(count) {
   canvas.height = 64;
   const ctx = canvas.getContext('2d');
   // Background
-  ctx.fillStyle = '#070a14';
+  ctx.fillStyle = '#110d16';
   ctx.fillRect(0, 0, 64, 64);
   // Lightning bolt
-  ctx.fillStyle = '#06b6d4';
+  ctx.fillStyle = '#f59e0b';
   ctx.font = 'bold 48px sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -5805,11 +5775,10 @@ function renderNativeChart(container, symbol, candleData, volumeData, ma5, ma10,
   };
 
   const colors = {
-    terminal: { bg: '#070a14', text: '#8a96b8', grid: 'rgba(255,255,255,.08)', border: 'rgba(255,255,255,.12)', up: '#10b981', down: '#f43f5e', ma5: '#06b6d4', ma10: '#f59e0b', ma20: '#a855f7' },
-    dark: { bg: '#110d16', text: '#9a92a8', grid: 'rgba(255,255,255,.06)', border: 'rgba(255,255,255,.10)', up: '#84cc16', down: '#ef4444', ma5: '#22d3ee', ma10: '#facc15', ma20: '#c084fc' },
+    dark: { bg: '#110d16', text: '#9a92a8', grid: 'rgba(255,255,255,.06)', border: 'rgba(255,255,255,.10)', up: '#84cc16', down: '#ef4444', ma5: '#f59e0b', ma10: '#facc15', ma20: '#c084fc' },
     light: { bg: '#ffffff', text: '#475569', grid: '#e2e8f0', border: '#cbd5e1', up: '#22c55e', down: '#ef4444', ma5: '#0ea5e9', ma10: '#f59e0b', ma20: '#a855f7' }
   };
-  const c = colors[theme] || colors.terminal;
+  const c = colors[theme] || colors.dark;
 
   const pad = { top: 15, right: 55, bottom: 30, left: 10 };
   const chartHeight = height * 0.72;
@@ -6195,11 +6164,10 @@ async function renderChart(symbol) {
 
   if (libraryLoaded && window.LightweightCharts) {
     const chartColors = {
-      terminal: { bg:'#070a14', text:'#8a96b8', grid:'rgba(255,255,255,.04)', border:'rgba(255,255,255,.06)', up:'#10b981', down:'#f43f5e' },
       dark: { bg:'#110d16', text:'#9a92a8', grid:'rgba(255,255,255,.03)', border:'rgba(255,255,255,.05)', up:'#84cc16', down:'#ef4444' },
       light: { bg:'#ffffff', text:'#475569', grid:'#e2e8f0', border:'#dde4ee', up:'#22c55e', down:'#ef4444' },
     };
-    const cc = chartColors[state.theme] || chartColors.terminal;
+    const cc = chartColors[state.theme] || chartColors.dark;
 
     if (chartInstance) { try { chartInstance.remove(); } catch(e){} }
     chartInstance = LightweightCharts.createChart(container, {
@@ -6240,7 +6208,7 @@ async function renderChart(symbol) {
     if (mainSeries && seriesData) mainSeries.setData(seriesData);
 
     if (showMA) {
-      if (ma5Last) { const s = chartInstance.addLineSeries({ color:'#06b6d4', lineWidth:2, priceLineVisible:false, lastValueVisible:false }); s.setData(ma5.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
+      if (ma5Last) { const s = chartInstance.addLineSeries({ color: state.theme === 'light' ? '#0ea5e9' : '#f59e0b', lineWidth:2, priceLineVisible:false, lastValueVisible:false }); s.setData(ma5.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
       if (ma10Last) { const s = chartInstance.addLineSeries({ color:'#f59e0b', lineWidth:2, priceLineVisible:false, lastValueVisible:false }); s.setData(ma10.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
       if (ma20Last) { const s = chartInstance.addLineSeries({ color:'#a855f7', lineWidth:2, priceLineVisible:false, lastValueVisible:false }); s.setData(ma20.map((v,i) => ({ time:candleData[i].time, value:v })).filter(d => d.value)); }
     }
@@ -6758,7 +6726,7 @@ function getMood(s) {
   if (s <= 40) return { emoji: '&#128552;', color: '#f97316', enExplain: 'Most people are cautious and selling more than buying. Wait for a clear sign of recovery before acting.', zhExplain: '大多数人偏谨慎，卖盘多于买盘。等出现企稳信号再行动。' };
   if (s <= 60) return { emoji: '&#128528;', color: '#eab308', enExplain: 'The market is balanced: no strong fear, no strong greed. A good time to watch and plan, not chase.', zhExplain: '市场处于平衡状态，没有明显的怕或贪。适合观察、制定计划，不适合追高。' };
   if (s <= 80) return { emoji: '&#128522;', color: '#22c55e', enExplain: 'People are optimistic and buying. Trends can keep going, but be careful not to buy at the very top.', zhExplain: '市场情绪积极，大家都在买。趋势可能延续，但小心买在最高点。' };
-  return { emoji: '&#129297;', color: '#06b6d4', enExplain: 'Markets are euphoric. This is when corrections happen most often. Consider taking some profits.', zhExplain: '市场过度乐观，回调风险最高。可以考虑适当落袋为安。' };
+  return { emoji: '&#129297;', color: '#f59e0b', enExplain: 'Markets are euphoric. This is when corrections happen most often. Consider taking some profits.', zhExplain: '市场过度乐观，回调风险最高。可以考虑适当落袋为安。' };
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -7255,8 +7223,8 @@ function handleCommand(input) {
     showNotification('Commands: symbol (e.g. AAPL) to view chart | /keyword to search news | FLASH | WATCH | STOCKS | SEARCH | CHARTS | ADMIN | THEME');
     return;
   }
-  if (cmd === 'THEME') {
-    const themes = ['terminal', 'dark', 'light'];
+    if (cmd === 'THEME') {
+    const themes = ['dark', 'light'];
     const next = themes[(themes.indexOf(state.theme) + 1) % themes.length];
     setTheme(next);
     showNotification('Theme: ' + next.toUpperCase());
@@ -7309,7 +7277,7 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === '6') switchPage('search');
   else if (e.key === '7') switchPage('charts');
   else if (e.key === 't' || e.key === 'T') {
-    const themes = ['terminal', 'dark', 'light'];
+    const themes = ['dark', 'light'];
     const next = themes[(themes.indexOf(state.theme) + 1) % themes.length];
     setTheme(next);
     showNotification('Theme: ' + next.toUpperCase());
