@@ -1144,17 +1144,24 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
     border-top:1px solid var(--border-color);
     z-index:300;
     align-items:stretch;
-    justify-content:space-around;
+    justify-content:flex-start;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
     box-shadow:0 -4px 24px rgba(0,0,0,.2);
   }
+  .mobile-bottom-nav::-webkit-scrollbar{display:none}
   .mbn-btn{
-    flex:1;
+    flex:0 0 auto;
+    min-width:62px;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     gap:3px;
-    padding:6px 2px;
+    padding:6px 4px;
     color:var(--text-muted);
     transition:color .2s,transform .2s;
     -webkit-tap-highlight-color:transparent;
@@ -2226,6 +2233,10 @@ input,select{font-family:inherit;outline:none;border:none;background:none;color:
   <button class="mbn-btn" data-page="movers">
     <span class="mbn-icon">&#128200;</span>
     <span class="mbn-label"><span class="ien">Stocks</span><span class="izh">股票</span></span>
+  </button>
+  <button class="mbn-btn" data-page="stocks">
+    <span class="mbn-icon">&#128201;</span>
+    <span class="mbn-label"><span class="ien">All</span><span class="izh">全部股票</span></span>
   </button>
   <button class="mbn-btn" data-page="charts">
     <span class="mbn-icon">&#128202;</span>
