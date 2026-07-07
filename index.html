@@ -2415,7 +2415,7 @@ async function fetchYahooData(symbol, range, interval) {
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 25000);
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
 
   // Race all proxies in parallel; first valid chart result wins
   const requests = proxies.map((proxy, idx) => {
@@ -2707,7 +2707,7 @@ const I18N = {
     brandName: 'WNS',
     // Navigation
     navFlash: 'News', navWatch: 'Watchlist Stocks News', navCalendar: 'News Date',
-    navMovers: 'Stocks', navStocks: 'Stocks', navSearch: 'Search', navCharts: 'Charts', navAI: 'AI Analysis', navAdmin: 'Admin Monitor',
+    navMovers: 'Movers', navStocks: 'All Stocks', navSearch: 'Search', navCharts: 'Charts', navAI: 'AI Analysis', navAdmin: 'Admin Monitor',
     // Page titles
     flashFeed: 'News', watchNews: 'Watchlist Stocks News', calendar: 'News Date',
     movers: 'Stocks', stocks: 'All Stocks', search: 'Search & History', charts: 'Charts', ai: 'AI Analysis', admin: 'System Monitor',
@@ -3272,7 +3272,7 @@ let state = {
   lang: localStorage.getItem('terminal_lang') || 'en',
   theme: localStorage.getItem('terminal_theme') === 'light' ? 'light' : 'dark',
   watchlist: JSON.parse(localStorage.getItem('terminal_watchlist') || JSON.stringify(DEFAULT_WATCHLIST)),
-  activePage: 'flash',
+  activePage: localStorage.getItem('terminal_activePage') || 'flash',
   pageHistory: [],
   newsDetailId: null,
   isLive: true,
@@ -3283,13 +3283,13 @@ let state = {
   cryptoData: {},
   commodityData: {},
   rankingsData: null,
-  chartSymbol: 'AAPL',
-  chartInterval: 'D',
-  chartType: 'candle',   // candle | heikin | bar | line | area
+  chartSymbol: localStorage.getItem('terminal_chartSymbol') || 'AAPL',
+  chartInterval: localStorage.getItem('terminal_chartInterval') || 'D',
+  chartType: localStorage.getItem('terminal_chartType') || 'candle',
   chart: null,
-  aiVolHistory: {},      // volume history for anomaly detection
-  aiSentimentScore: 50,  // 0-100 market sentiment
-  aiAnomalies: [],       // detected anomalies
+  aiVolHistory: {},
+  aiSentimentScore: 50,
+  aiAnomalies: [],
   refreshTimer: null,
   newsPollTimer: null,
   watchStockFilter: 'all',
@@ -3464,6 +3464,18 @@ function updateDemoIndicator() {
 }
 
 // ===================== UTILITIES =====================
+async function fetchWithTimeout(url, options = {}, ms = 10000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), ms);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return res;
+  } catch (e) {
+    clearTimeout(id);
+    throw e;
+  }
+}
 function fmtPrice(n) {
   if (n == null || isNaN(n)) return '--';
   return n >= 1000 ? n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : n.toFixed(2);
@@ -6016,6 +6028,7 @@ function loadChartLibrary() {
 
 async function loadChart(symbol) {
   state.chartSymbol = symbol;
+  try { localStorage.setItem('terminal_chartSymbol', symbol); } catch(e) {}
   document.getElementById('chartSymbolInput').value = symbol;
   document.getElementById('chartPriceSymbol').textContent = symbol;
   const nameEl = document.getElementById('chartPriceName');
@@ -6273,6 +6286,34 @@ function generateSyntheticCandles(symbol, count) {
 }
 
 async function renderChart(symbol) {
+  const container = document.getElementById('chartCanvas');
+  if (!container) return;
+
+  // Update header immediately with cached price if available
+  const symbolInput = document.getElementById('chartSymbolInput');
+  if (symbolInput) symbolInput.value = symbol;
+  document.getElementById('chartPriceSymbol').textContent = symbol;
+  const nameEl = document.getElementById('chartPriceName');
+  if (nameEl) nameEl.textContent = getStockName(symbol);
+
+  const cachedQuote = state.stockData[symbol];
+  if (cachedQuote && cachedQuote.price) {
+    document.getElementById('chartPriceValue').textContent = '$' + fmtPrice(cachedQuote.price);
+    const changeEl = document.getElementById('chartPriceChange');
+    changeEl.textContent = fmtChange(cachedQuote.change) + ' (' + fmtPct(cachedQuote.changePct) + ')';
+    changeEl.className = 'chart-price-change ' + (cachedQuote.change >= 0 ? 'up' : 'down');
+  }
+
+  document.querySelectorAll('.chart-quick-btn').forEach(b => b.classList.toggle('active', b.textContent === symbol));
+  document.querySelectorAll('.chart-interval-btn').forEach(b => b.classList.toggle('active', b.dataset.interval === state.chartInterval));
+  document.querySelectorAll('.chart-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === state.chartType));
+
+  // Clean up old chart instance BEFORE modifying DOM
+  if (chartInstance) { try { chartInstance.remove(); } catch(e){} chartInstance = null; }
+
+  // Show loading skeleton with spinner
+  container.innerHTML = '<div class="flash-empty" style="padding:40px 20px"><span class="spinner"></span><div>' + langText('Loading chart data for ' + symbol + '...', '正在加载 ' + symbol + ' 的图表数据...') + '</div></div>';
+
   let libraryLoaded = false;
   try {
     await loadChartLibrary();
@@ -6280,17 +6321,6 @@ async function renderChart(symbol) {
   } catch(e) {
     console.warn('Chart library load failed, using native fallback:', e);
   }
-  const container = document.getElementById('chartCanvas');
-  if (!container) return;
-  document.getElementById('chartPriceSymbol').textContent = symbol;
-  const nameEl = document.getElementById('chartPriceName');
-  if (nameEl) nameEl.textContent = getStockName(symbol);
-
-  // Clean up old chart instance BEFORE modifying DOM
-  if (chartInstance) { try { chartInstance.remove(); } catch(e){} chartInstance = null; }
-
-  // Show loading state
-  container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted)">' + langText('Loading chart data for ' + symbol + '...', '正在加载 ' + symbol + ' 的图表数据...') + '</div>';
 
   // Ensure container has dimensions (page must be visible)
   if (container.clientWidth < 10) {
@@ -6323,7 +6353,7 @@ async function renderChart(symbol) {
   let tdUrl = TWELVE_DATA_BASE + '/time_series?symbol=' + encodeURIComponent(symbol) + '&interval=' + tdInterval + '&outputsize=' + tdOutputsize + '&apikey=' + TWELVE_DATA_KEY;
   const tdStartTime = performance.now();
   try {
-    const tdFetch = await fetch(tdUrl);
+    const tdFetch = await fetchWithTimeout(tdUrl, {}, 8000);
     tdRes = await tdFetch.json();
     state.adminStats.apiLatencies['Twelve Data'] = Math.round(performance.now() - tdStartTime);
   } catch(e) {
@@ -7444,6 +7474,9 @@ function switchPage(page, options = {}) {
     }
   }
   state.activePage = page;
+  if (page !== 'newsdetail') {
+    try { localStorage.setItem('terminal_activePage', page); } catch(e) {}
+  }
   hideHelpTooltips(); // Close any open help tooltips
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.page === page));
   document.querySelectorAll('.mbn-btn').forEach(b => b.classList.toggle('active', b.dataset.page === page));
@@ -7651,6 +7684,7 @@ function initEventListeners() {
       const sym = e.target.value.toUpperCase().trim();
       if (sym) {
         state.chartSymbol = sym;
+        try { localStorage.setItem('terminal_chartSymbol', sym); } catch(e) {}
         document.getElementById('chartPriceSymbol').textContent = sym;
         document.querySelectorAll('.chart-quick-btn').forEach(b => b.classList.toggle('active', b.textContent === sym));
         renderChart(sym);
@@ -7662,6 +7696,7 @@ function initEventListeners() {
   document.querySelectorAll('.chart-interval-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       state.chartInterval = btn.dataset.interval;
+      try { localStorage.setItem('terminal_chartInterval', state.chartInterval); } catch(e) {}
       document.querySelectorAll('.chart-interval-btn').forEach(b => b.classList.toggle('active', b === btn));
       renderChart(state.chartSymbol);
     });
@@ -7671,6 +7706,7 @@ function initEventListeners() {
   document.querySelectorAll('.chart-type-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       state.chartType = btn.dataset.type;
+      try { localStorage.setItem('terminal_chartType', state.chartType); } catch(e) {}
       document.querySelectorAll('.chart-type-btn').forEach(b => b.classList.toggle('active', b === btn));
       renderChart(state.chartSymbol);
     });
@@ -8217,6 +8253,12 @@ function fmtCryptoPrice(p) {
 
 async function init() {
   try {
+    // Don't try to restore the transient news detail page
+    if (state.activePage === 'newsdetail') {
+      state.activePage = 'flash';
+      try { localStorage.setItem('terminal_activePage', 'flash'); } catch(e) {}
+    }
+
     const apiKeyInput = document.getElementById('apiKeyInput');
     const twelveDataKeyInput = document.getElementById('twelveDataKeyInput');
     if (apiKeyInput) apiKeyInput.value = FINNHUB_KEY;
@@ -8331,6 +8373,15 @@ async function init() {
     document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString(state.lang === 'zh' ? 'zh-CN' : 'en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
 
     startAutoRefresh();
+
+    // Preload chart library in background so the charts page opens faster
+    loadChartLibrary().catch(() => {});
+
+    // Restore last page instead of always landing on flash
+    if (state.activePage && state.activePage !== 'flash') {
+      switchPage(state.activePage, { skipHistory: true });
+    }
+
     showNotification(t('brandName', 'WNS') + ' ready. ' + state.newsItems.length + ' news items loaded. Press / to search.');
   } catch(e) {
     console.error('Init error:', e);
